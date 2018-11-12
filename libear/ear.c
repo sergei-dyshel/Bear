@@ -473,8 +473,10 @@ static void report_call(char const *const argv[]) {
         ERROR_AND_EXIT("snprintf");
     // Create report file
     int fd = mkstemp((char *)&filename);
-    if (-1 == fd)
-        ERROR_AND_EXIT("mkstemp");
+    if (-1 == fd) {
+        PERROR("mkstemp");
+        return;
+    }
     // Write report file
     write_report(fd, argv);
     // Close report file
